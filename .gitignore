@@ -1,0 +1,29 @@
+# Backend Environments
+backend/venv/
+backend/.env
+backend/data/
+backend/chroma_db/
+backend/__pycache__/
+backend/.pytest_cache/
+*.pyc
+*.sqlite3
+*.db
+
+# Frontend Dependencies
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# IDEs and OS Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Project Uploads (Ignore sample PDFs or student uploaded PDFs)
+*.pdf
+backend/uploads/
+
+# Generated Samples
+generate_samples.py

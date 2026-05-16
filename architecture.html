@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartGradeAI System Architecture</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #d1d5db;
+            --box-bg: #f9fafb;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1050px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 6px 0;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .diagram {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .col.connector {
+            flex: 0;
+            min-width: 40px;
+            align-items: center;
+            padding-top: 80px; /* Aligns roughly with middle of top boxes */
+        }
+
+        .layer-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .node {
+            background: var(--box-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 18px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .node:hover {
+            border-color: #9ca3af;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .node-header {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e5e7eb;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .node-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .node-list li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .node-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .node-list li::before {
+            content: "■";
+            font-size: 8px;
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: var(--border);
+        }
+
+        .node-list strong {
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .arrow {
+            color: var(--border);
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .arrow.vertical {
+            text-align: center;
+            margin: -5px 0;
+        }
+
+        @media (max-width: 900px) {
+            .diagram {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .col {
+                width: 100%;
+                max-width: 100%;
+            }
+            .col.connector {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .arrow {
+                transform: rotate(90deg);
+            }
+            .arrow.vertical {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>System Architecture</h1>
+            <p>SmartGradeAI Components & Data Flow</p>
+        </div>
+
+        <div class="diagram">
+            
+            <!-- 1. Users Layer -->
+            <div class="col">
+                <div class="layer-title">1. Users</div>
+                
+                <div class="node">
+                    <div class="node-header">Teacher</div>
+                    <ul class="node-list">
+                        <li>Create & manage courses</li>
+                        <li>Upload exam PDFs</li>
+                        <li>Upload grading rubric PDFs</li>
+                        <li>View AI-graded student scores</li>
+                    </ul>
+                </div>
+
+                <div class="node">
+                    <div class="node-header">Student</div>
+                    <ul class="node-list">
+                        <li>Enroll in available courses</li>
+                        <li>Submit solution PDFs</li>
+                        <li>View automated AI feedback</li>
+                        <li>Check overall grade & metrics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="col connector">
+                <div class="arrow">→</div>
+            </div>
+
+            <!-- 2. Client Layer -->
+            <div class="col">
+                <div class="layer-title">2. Client Interface</div>
+                
+                <div class="node" style="height: 100%;">
+                    <div class="node-header">React Application</div>
+                    <ul class="node-list">
+                        <li><strong>Framework:</strong> Vite + React.js</li>
+                        <li><strong>Styling:</strong> Tailwind CSS</li>
+                        <li><strong>Views:</strong> Role-based Dashboards</li>
+                        <li><strong>State:</strong> File uploads & Auth context</li>
+                        <li><strong>Integration:</strong> Axios REST calls</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="col connector">
+                <div class="arrow">↔</div>
+            </div>
+
+            <!-- 3. Application Layer -->
+            <div class="col">
+                <div class="layer-title">3. Backend Services</div>
+                
+                <div class="node">
+                    <div class="node-header">FastAPI Server</div>
+                    <ul class="node-list">
+                        <li><strong>API:</strong> RESTful Python Endpoint</li>
+                        <li><strong>Auth:</strong> JWT & Password Hashing</li>
+                        <li><strong>PDF Ops:</strong> Extract text & local storage</li>
+                        <li><strong>Logic:</strong> Custom Prompt Engineering</li>
+                    </ul>
+                </div>
+
+                <div class="arrow vertical">↕</div>
+
+                <div class="node">
+                    <div class="node-header">Storage & Database</div>
+                    <ul class="node-list">
+                        <li><strong>Database:</strong> SQLite Relational Data</li>
+                        <li><strong>ORM:</strong> SQLAlchemy (Users, Grades)</li>
+                        <li><strong>Files:</strong> Local `/uploads` directory</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="col connector" style="padding-top: 80px;">
+                <div class="arrow">↔</div>
+            </div>
+
+            <!-- 4. AI Layer -->
+            <div class="col">
+                <div class="layer-title">4. AI Provider</div>
+                
+                <div class="node">
+                    <div class="node-header">Google Gemini API</div>
+                    <ul class="node-list">
+                        <li><strong>Input:</strong> Extracted Student PDF + Teacher Rubric PDF</li>
+                        <li><strong>Task:</strong> LLM Comparative Evaluation</li>
+                        <li><strong>Format:</strong> Structured JSON Responses</li>
+                        <li><strong>Output:</strong> Automated Final Score & Constructive Feedback</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
